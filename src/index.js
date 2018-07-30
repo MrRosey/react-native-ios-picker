@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import CollapseView from 'react-native-collapse-view';
-import { Text, View, TouchableOpacity , StyleSheet, PickerIOS, Modal } from 'react-native';
+import { Text, View, TouchableOpacity , StyleSheet, PickerIOS, Modal, Image } from 'react-native';
 import * as Images from '../images'
 
 const propTypes = {
@@ -102,9 +102,6 @@ class IOSPicker extends Component {
         <Text style={textStyle}>
           {this.state.selectedValue}
         </Text>
-        <RX.Image
-          style={defaultStyles.image}
-          source={'../images/arrows_check.png'}/>
       </TouchableOpacity>
     </View>
     )
