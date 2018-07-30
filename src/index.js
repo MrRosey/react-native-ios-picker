@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import CollapseView from 'react-native-collapse-view';
 import { Text, View, TouchableOpacity , StyleSheet, PickerIOS, Modal, Image } from 'react-native';
-import * as Images from '../images'
 
 const propTypes = {
   mode: PropTypes.string,
