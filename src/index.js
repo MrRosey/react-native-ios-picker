@@ -32,7 +32,7 @@ class IOSPicker extends Component {
     this.state = {
       modalVisible: false,
       selectedValue: selected,
-      selected: selected,
+      selected: this.props.selectedValueIndex,
     };
   }
 
@@ -134,11 +134,11 @@ class IOSPicker extends Component {
 
 const defaultStyles = StyleSheet.create({
   container: {
-    padding: 5,
+    //padding: 5,
     minHeight: 40,
     borderTopWidth: 0.5,
     borderColor: '#ddd',
-    backgroundColor: '#fff',
+    backgroundColor: '#fbfbfb',
     justifyContent: 'center',
   },
   overlay: {
