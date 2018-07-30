@@ -25,7 +25,7 @@ class IOSPicker extends Component {
     super(props);
     let selected = 0;
     if(this.props.data!==null) {
-      selected = this.props.data[this.props.selectedValueIndex || 0];
+      selected = this.props.selectedValue ? this.props.selectedValue : this.props.data[this.props.selectedValueIndex || 0].label;
     } else {
       selected = this.props.selectedValue || 'select one';
     }
@@ -49,7 +49,7 @@ class IOSPicker extends Component {
   }
 
   valueChange = (data, index) => {
-    this.setState({modalVisible: this.props.mode === 'alternateModal' ? true : false, selectedValue: data, selected: data});
+    this.setState({modalVisible: this.props.mode === 'alternateModal' ? true : false, selectedValue: this.props.data[index].label, selected: this.props.data[index].value});
     this.props.onValueChange(data, index);
   }
 
@@ -118,7 +118,7 @@ class IOSPicker extends Component {
               onValueChange={this.valueChange}>
               { 
                 data && data.map((d)=>
-                  <PickerIOS.Item style={pickerItemStyle} key={d} label={d} value={d} />
+                  <PickerIOS.Item style={pickerItemStyle} key={d} label={d.label} value={d.value} />
                 )
               }
               {children}
