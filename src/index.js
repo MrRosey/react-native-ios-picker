@@ -98,7 +98,7 @@ class IOSPicker extends Component {
         onPress={this.pressItem}
         style={[defaultStyles.container,style]}
       >
-        <Text style={textStyle}>
+        <Text style={textStyle} numberOfLines={1}>
           {this.state.selectedValue}
         </Text>
       </TouchableOpacity>
@@ -139,6 +139,7 @@ const defaultStyles = StyleSheet.create({
     borderColor: '#ddd',
     backgroundColor: '#fbfbfb',
     justifyContent: 'center',
+    width: 140,
   },
   overlay: {
     flex: 1,
