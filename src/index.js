@@ -113,7 +113,7 @@ class IOSPicker extends Component {
       <Modal transparent visible={this.state.modalVisible} animationType='fade'>
         <TouchableOpacity activeOpacity={1} onPress={() => this.setState({modalVisible:false})} style={defaultStyles.overlay}>
           <View style={defaultStyles.picker}>
-            <Text style={{flex: 0, alignSelf: 'flex-end', color: '#2293ed', fontSize: 14, marginRight: 16}}>Done</Text>
+            <Text style={{flex: 0, alignSelf: 'flex-end', color: '#2293ed', fontSize: 18, marginRight: 16}}>Done</Text>
             <PickerIOS 
               selectedValue={this.state.selected}
               onValueChange={this.valueChange}>
