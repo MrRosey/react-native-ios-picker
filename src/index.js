@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import CollapseView from 'react-native-collapse-view';
-import { Text, View, TouchableOpacity , StyleSheet, PickerIOS, Modal, Image } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, PickerIOS, Modal, Image } from 'react-native';
 
 const propTypes = {
   mode: PropTypes.string,
@@ -13,18 +13,20 @@ const propTypes = {
   textStyle: PropTypes.object,
   pickerItemStyle: PropTypes.object,
   collapseViewStyle: PropTypes.object,
+  flex: PropTypes.bool,
 }
 
 const defaultProps = {
   data: null,
   mode: 'collapse',
+  flex: false,
 };
 
 class IOSPicker extends Component {
   constructor(props) {
     super(props);
     let selected = 0;
-    if(this.props.data!==null) {
+    if (this.props.data !== null) {
       selected = this.props.selectedValue ? this.props.selectedValue : this.props.data[this.props.selectedValueIndex || 0].label;
     } else {
       selected = this.props.selectedValue || 'select one';
@@ -37,7 +39,7 @@ class IOSPicker extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if ( this.props.data == null && nextProps.selectedValue !== this.state.selectedValue) {
+    if (this.props.data == null && nextProps.selectedValue !== this.state.selectedValue) {
       this.setState({
         selectedValue: nextProps.selectedValue,
       });
@@ -45,17 +47,17 @@ class IOSPicker extends Component {
   }
 
   pressItem = () => {
-    this.setState({modalVisible:true});
+    this.setState({ modalVisible: true });
   }
 
   valueChange = (data, index) => {
-    this.setState({modalVisible: this.props.mode === 'alternateModal' ? true : false, selectedValue: this.props.data[index].label, selected: this.props.data[index].value});
+    this.setState({ modalVisible: this.props.mode === 'alternateModal' ? true : false, selectedValue: this.props.data[index].label, selected: this.props.data[index].value });
     this.props.onValueChange(data, index);
   }
 
   renderView = () => {
     return (
-      <View style={[defaultStyles.container,this.props.style]}>
+      <View style={[defaultStyles.container, this.props.style, this.props.flex ? { maxWidth: null } : { maxWidth: 140 }]}>
         <Text style={this.props.textStyle}>
           {this.state.selectedValue}
         </Text>
@@ -66,11 +68,11 @@ class IOSPicker extends Component {
   renderCollapseView = () => {
     return (
       <View style={this.props.collapseViewStyle}>
-        <PickerIOS 
+        <PickerIOS
           selectedValue={this.state.selected}
           onValueChange={this.valueChange}>
-          { 
-            this.props.data && this.props.data.map((d)=>
+          {
+            this.props.data && this.props.data.map((d) =>
               <PickerIOS.Item style={this.props.pickerItemStyle} key={d} label={d} value={d} />
             )
           }
@@ -82,7 +84,7 @@ class IOSPicker extends Component {
 
   renderCollapsePicker() {
     return (
-      <CollapseView 
+      <CollapseView
         renderView={this.renderView}
         renderCollapseView={this.renderCollapseView}
       />
@@ -92,43 +94,43 @@ class IOSPicker extends Component {
   renderModalPicker() {
     const { style, textStyle } = this.props;
     return (
-    <View>
-      <TouchableOpacity 
-        activeOpacity={0.5}
-        onPress={this.pressItem}
-        style={[defaultStyles.container,style]}
-      >
-        <Text style={textStyle} numberOfLines={1}>
-          {this.state.selectedValue}
-        </Text>
-      </TouchableOpacity>
-    </View>
+      <View>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={this.pressItem}
+          style={[defaultStyles.container, style, this.props.flex ? { maxWidth: null } : { maxWidth: 140 }]}
+        >
+          <Text style={textStyle} numberOfLines={1}>
+            {this.state.selectedValue}
+          </Text>
+        </TouchableOpacity>
+      </View>
     )
   }
-  
+
   render = () => {
-    const { children, data, style, textStyle, pickerStyle, pickerItemStyle, disabled, mode} = this.props;
+    const { children, data, style, textStyle, pickerStyle, pickerItemStyle, disabled, mode } = this.props;
     return (
-    <View>
-      <Modal transparent visible={this.state.modalVisible} animationType='fade'>
-        <TouchableOpacity activeOpacity={1} onPress={() => this.setState({modalVisible:false})} style={defaultStyles.overlay}>
-          <View style={defaultStyles.picker}>
-            <Text style={{flex: 0, alignSelf: 'flex-end', color: '#2293ed', fontSize: 18, marginRight: 16}}>Done</Text>
-            <PickerIOS 
-              selectedValue={this.state.selected}
-              onValueChange={this.valueChange}>
-              { 
-                data && data.map((d)=>
-                  <PickerIOS.Item style={pickerItemStyle} key={d} label={d.label} value={d.value} />
-                )
-              }
-              {children}
-            </PickerIOS>
-          </View>
-        </TouchableOpacity>
-      </Modal>
-      {mode!=='modal' && mode!=='alternateModal' ? this.renderCollapsePicker() : this.renderModalPicker()}
-    </View>
+      <View>
+        <Modal transparent visible={this.state.modalVisible} animationType='fade'>
+          <TouchableOpacity activeOpacity={1} onPress={() => this.setState({ modalVisible: false })} style={defaultStyles.overlay}>
+            <View style={defaultStyles.picker}>
+              <Text style={{ flex: 0, alignSelf: 'flex-end', color: '#2293ed', fontSize: 18, marginRight: 16 }}>Done</Text>
+              <PickerIOS
+                selectedValue={this.state.selected}
+                onValueChange={this.valueChange}>
+                {
+                  data && data.map((d) =>
+                    <PickerIOS.Item style={pickerItemStyle} key={d} label={d.label} value={d.value} />
+                  )
+                }
+                {children}
+              </PickerIOS>
+            </View>
+          </TouchableOpacity>
+        </Modal>
+        {mode !== 'modal' && mode !== 'alternateModal' ? this.renderCollapsePicker() : this.renderModalPicker()}
+      </View>
     );
   }
 }
@@ -136,11 +138,10 @@ class IOSPicker extends Component {
 const defaultStyles = StyleSheet.create({
   container: {
     minHeight: 40,
-    borderTopWidth: 0.5,
     borderColor: '#ddd',
     backgroundColor: '#fbfbfb',
     justifyContent: 'center',
-    width: 140,
+    flex: 1,
   },
   overlay: {
     flex: 1,
